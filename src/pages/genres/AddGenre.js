@@ -14,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Store } from "../../states/store";
 import { useNavigate } from "react-router-dom";
 import { getError } from "../../utils/error";
+import { Cropper } from "../../components";
 
 export default function AddGenre() {
   const { state } = useContext(Store);
@@ -27,8 +28,8 @@ export default function AddGenre() {
   const [backgroundColour, setBackgroundColour] = useState("");
   const [image, setImage] = useState("");
   const [load, setLoad] = useState(false);
+  console.log(image);
 
-  
   const resetForm = (e) => {
     setGenre("");
     setStarter("");
@@ -37,29 +38,51 @@ export default function AddGenre() {
     setDescription("");
   };
 
-  const fileHandler = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.type.startsWith("image/")) {
-        setImage(file);
-      } else {
-        toast.warning("Please select a valid image file.");
-        e.target.value = null;
-        return;
-      }
-    }
+  // const fileHandler = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     if (file.type.startsWith("image/")) {
+  //       setImage(file);
+  //     } else {
+  //       toast.warning("Please select a valid image file.");
+  //       e.target.value = null;
+  //       return;
+  //     }
+  //   }
 
-    if (e.target.files.length > 1) {
-      toast.warning("Please select only one file.");
-      e.target.value = null;
-    }
-  };
+  //   if (e.target.files.length > 1) {
+  //     toast.warning("Please select only one file.");
+  //     e.target.value = null;
+  //   }
+  // };
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!colour) {
+      toast.warning("Please Add Genre Colour", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+      return;
+    }
+    if (!backgroundColour) {
+      toast.warning("Please Add Genre Background Colour", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+      return;
+    }
+
+    if (!image) {
+      toast.warning("Please Add or Crop image", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+      return;
+    }
+
+    // e.preventDefault();
     const formData = new FormData();
     formData.append("genre", genre);
-    formData.append('starter', JSON.stringify(starterArray));
+    formData.append("starter", JSON.stringify(starterArray));
     formData.append("colour", colour);
     formData.append("backgroundColour", backgroundColour);
     formData.append("image", image);
@@ -72,7 +95,11 @@ export default function AddGenre() {
       const { data } = await axiosInstance.post(
         "/api/genre/addGenre",
         formData,
-        { headers: { authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (data.success) {
         setLoad(false);
@@ -94,8 +121,6 @@ export default function AddGenre() {
 
   const addStarter = (e) => {
     if (starter.length && description.length) {
-      // let temp = starterArray;
-      // temp.push({starter,description});
       setStarterArray((p) => [...p, { starter, description }]);
       setStarter("");
       setDescription("");
@@ -152,24 +177,22 @@ export default function AddGenre() {
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Image</Form.Label>
-                    <Form.Control
-                      // value={image}
-                      onChange={fileHandler}
-                      required
-                      type="file"
-                      accept="image/*"
-                    />
+                    <Cropper setImage={setImage} w={194} h={112} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Starter</Form.Label>
                     <Form.Control
                       value={starter}
+                      maxLength={50}
                       onChange={(e) => setStarter(e.target.value)}
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Description</Form.Label>
                     <Form.Control
+                      as="textarea"
+                      maxLength={250}
+                      style={{ height: "120px" }}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />

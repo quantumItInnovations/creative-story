@@ -15,6 +15,10 @@ import PrivacyPolicy from "./pages/privacypolicy/PrivacyPolicy";
 import TermsAndCondition from "./pages/termsandcondition/TermsAndCondition";
 import ViewGenre from "./pages/genres/ViewGenre";
 import AddGenre from "./pages/genres/AddGenre";
+import Banners from "./pages/banners/Banners";
+import AddBanner from "./pages/banners/AddBanner";
+import ViewBanner from "./pages/banners/ViewBanner";
+import DeleteAccount from "./pages/deleteaccount/DeleteAccount";
 
 function App() {
   const { state } = useContext(Store);
@@ -66,11 +70,29 @@ function App() {
               </AdminProtectedRoute>
             }
           />
-           <Route
-            exact path="/admin/genre/add"
+          <Route
+            exact
+            path="/admin/genre/add"
             element={
               <AdminProtectedRoute>
                 <AddGenre />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/banners"
+            element={
+              <AdminProtectedRoute>
+                <Banners />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/banner/add"
+            element={
+              <AdminProtectedRoute>
+                <AddBanner />
               </AdminProtectedRoute>
             }
           />
@@ -121,19 +143,36 @@ function App() {
             }
           />
           <Route
-            path="/admin/privacy-policy"
+            exact
+            path="/admin/view/banner/:id"
             element={
               <AdminProtectedRoute>
-                <PrivacyPolicy />
+                <ViewBanner />
               </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/privacy-policy"
+            element={
+              // <AdminProtectedRoute>
+              <PrivacyPolicy />
+              // </AdminProtectedRoute>
             }
           ></Route>
           <Route
             path="/admin/terms-and-condition"
             element={
-              <AdminProtectedRoute>
-                <TermsAndCondition />
-              </AdminProtectedRoute>
+              // <AdminProtectedRoute>
+              <TermsAndCondition />
+              // </AdminProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="/admin/delete-account"
+            element={
+              // <AdminProtectedRoute>
+              <DeleteAccount />
+              // </AdminProtectedRoute>
             }
           ></Route>
           <Route path="*" element={<NotFound />} />

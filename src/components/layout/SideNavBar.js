@@ -4,24 +4,19 @@ import { Store } from "../../states/store";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../utils/creativestory.svg";
 import {
-  MdCreateNewFolder,
-  MdSchema,
-  MdWarehouse,
-  MdOutlineContentPaste,
-  MdOutlineSwapHoriz,
-  MdManageAccounts,
+  
   MdAutoStories,
   MdPrivacyTip,
 } from "react-icons/md";
 import { RiFileList2Line } from "react-icons/ri";
 import {
-  FaFileInvoiceDollar,
-  FaShoppingBasket,
+ 
   FaSignOutAlt,
-  FaUserPlus,
+ 
 } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import { AiFillDashboard } from "react-icons/ai";
+import { RiAdvertisementFill } from "react-icons/ri";
 import { VscListUnordered } from "react-icons/vsc";
 
 const linkList = [
@@ -46,6 +41,11 @@ const linkList = [
     url: "/admin/genres",
   },
   {
+    icon: <RiAdvertisementFill className="icon-md" />,
+    text: "Banners",
+    url: "/admin/banners",
+  },
+  {
     icon: <MdPrivacyTip className="icon-md" />,
     text: "Privacy Policy",
     url: "/admin/privacy-policy",
@@ -62,6 +62,7 @@ const active_text = {
   Users: "users",
   Stories: "stories",
   Genres: "genres",
+  "Banners":"banners",
   "Privacy Policy": "privacy-policy",
   "Terms & Condition": "terms-and-condition",
 };

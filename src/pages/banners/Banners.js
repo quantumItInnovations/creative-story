@@ -7,7 +7,7 @@ import {
   InputGroup,
   Table,
 } from "react-bootstrap";
-import { getAllGenres } from "../../states/actions";
+import { getAllBanners } from "../../states/actions";
 import { reducer } from "../../states/reducers";
 // import { ColorRing } from "react-loader-spinner";
 import { Store } from "../../states/store";
@@ -19,16 +19,16 @@ import { toast, ToastContainer } from "react-toastify";
 import { getError } from "../../utils/error";
 import axiosInstance from "../../utils/axiosUtil";
 
-export default function Genres() {
+export default function Banners() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const navigate = useNavigate();
-  const { genres, token, genreLength } = state;
+  const { banners, token, bannerLength } = state;
   const [curPage, setCurPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [query, setQuery] = useState("");
   const [resultPerPage, setResultPerPage] = useState(5);
   const curPageHandler = (p) => setCurPage(p);
-  const filteredCategoryCount = genreLength;
+  const filteredCategoryCount = bannerLength;
   const numOfPages = Math.ceil(filteredCategoryCount / resultPerPage);
   const skip = resultPerPage * (curPage - 1);
   const [del, setDel] = useState(false);
@@ -38,24 +38,34 @@ export default function Genres() {
     error: "",
   });
   useEffect(() => {
-    getAllGenres(ctxDispatch, dispatch, token, resultPerPage, curPage,searchInput);
-  }, [curPage, resultPerPage, token, del,query]);
+    getAllBanners(
+      ctxDispatch,
+      dispatch,
+      token,
+      resultPerPage,
+      curPage,
+      searchInput
+    );
+  }, [curPage, resultPerPage, token, del, query]);
 
   const deleteGenre = async (id) => {
     if (
-      window.confirm("Are you sure you want to delete this genre?") === true
+      window.confirm("Are you sure you want to delete this Banner?") === true
     ) {
       try {
         setDel(true);
-        const res = await axiosInstance.delete(`/api/admin/deleteGenre/${id}`, {
-          headers: { authorization: `Bearer ${token}` },
-        });
+        const res = await axiosInstance.delete(
+          `/api/banner/delete-banner/${id}`,
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        );
 
-        toast.success("Genre Deleted Succesfully.", {
+        toast.success("Banner Deleted Succesfully.", {
           position: toast.POSITION.BOTTOM_CENTER,
         });
 
-        if ((genreLength - 1) % resultPerPage === 0 && curPage != 1) {
+        if ((bannerLength - 1) % resultPerPage === 0 && curPage != 1) {
           setCurPage((p) => p - 1);
         }
         setDel(false);
@@ -82,18 +92,18 @@ export default function Genres() {
             <Card.Header>
               <Button
                 onClick={() => {
-                  navigate(`/admin/genre/add`);
+                  navigate(`/admin/banner/add`);
                 }}
                 type="success"
                 className="btn btn-primary btn-block mt-1"
               >
-                Add Genre
+                Add Banner
               </Button>
               <div className="search-box float-end">
                 <InputGroup>
                   <Form.Control
                     aria-label="Search Input"
-                    placeholder="Search by Genre"
+                    placeholder="Search by Client Name"
                     type="search"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
@@ -121,10 +131,9 @@ export default function Genres() {
                 <thead>
                   <tr>
                     <th>S.no</th>
-                    <th>Genre</th>
-                    <th>Total Starter</th>
-                    <th>Starter 1</th>
-                    {/* <th>Starter 3</th> */}
+                    <th>Banner</th>
+                    <th>Client Name</th>
+                    <th>Link</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -132,18 +141,28 @@ export default function Genres() {
                   {loading ? (
                     <CustomSkeleton resultPerPage={5} column={5} />
                   ) : (
-                    genres.length > 0 &&
-                    genres.map((genre, i) => (
+                    banners.length > 0 &&
+                    banners.map((banner, i) => (
                       <tr key={i} className="odd">
                         <td className="text-center">{skip + i + 1}</td>
-                        <td>{genre.genre}</td>
-                        <td>{genre.starter.length}</td>
-                        <td>{genre.starter[0].starter}</td>
-                        {/* <td>{genre.starter[2].starter||""}</td> */}
+                        <td style={{textAlign:"center"}}>
+                          <img
+                            style={{
+                              width: "140px",
+                              height: "120px",
+                              cursor:"pointer",
+                              borderRadius:"10px"
+                            }}
+                            src={banner.bannerUrl}
+                          />
+                        </td>
+                        <td>{banner.clientName}</td>
+                        <td>{banner.navigationUrl}</td>
+
                         <td>
                           <Button
                             onClick={() => {
-                              navigate(`/admin/view/genre/${genre._id}`);
+                              navigate(`/admin/view/banner/${banner._id}`);
                             }}
                             type="success"
                             className="btn btn-primary"
@@ -152,7 +171,7 @@ export default function Genres() {
                           </Button>
                           <Button
                             onClick={() => {
-                              deleteGenre(genre._id);
+                              deleteGenre(banner._id);
                             }}
                             type="danger"
                             className="btn btn-danger ms-2"

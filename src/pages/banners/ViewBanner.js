@@ -5,18 +5,18 @@ import { reducer } from "../../states/reducers";
 import { useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import EditGenreModel from "./EditGenreModel.js";
+import EditBannerModel from "./EditBannerModel.js";
 // import axiosInstance from "../../utils/axiosUtil.js";
 import { FaEdit } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Skeleton from "react-loading-skeleton";
 import { MessageBox } from "../../components";
 
-import { getGenre } from "../../states/actions.js";
+import { getBanner } from "../../states/actions.js";
 
-const ViewGenre = () => {
+const ViewBanner = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { token, genre } = state;
+  const { token, banner } = state;
   const { id } = useParams(); // category/:id
   // const navigate = useNavigate();
   // console.log("in this room")
@@ -25,10 +25,9 @@ const ViewGenre = () => {
     loading: true,
     error: "",
   });
-  const [currentStarter, setCurrentStarter] = useState(0);
 
   useEffect(() => {
-    getGenre(ctxDispatch, dispatch, token, id);
+    getBanner(ctxDispatch, dispatch, token, id);
   }, [id]);
 
   const getDateTime = (dt) => {
@@ -67,47 +66,28 @@ const ViewGenre = () => {
                     <Row>
                       <Col md={3}>
                         <p className="mb-0">
-                          <strong>Genre</strong>
+                          <strong>Banner</strong>
                         </p>
-                        <p>{loading ? <Skeleton /> : genre.genre}</p>
+                        <p >
+                          {loading ? (
+                            <Skeleton />
+                          ) : (
+                            <img className="" style={{width:"100%",height:"120px",cursor:"pointer",borderRadius:"12px"}} src={banner.bannerUrl} />
+                          )}
+                        </p>
                       </Col>
                       <Col md={3}>
                         <p className="mb-0">
-                          <strong>Select Starter</strong>
+                          <strong>Client Name</strong>
                         </p>
-                        <p>
-                          {loading ? (
-                            <Skeleton />
-                          ) : (
-                            <select
-                              onChange={(e) =>
-                                setCurrentStarter(e.target.value)
-                              }
-                            >
-                              {genre.starter.map((data, index) => {
-                                return (
-                                  <option key={index} value={index}>
-                                    {data.starter}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          )}
-                        </p>
+                        <p>{loading ? <Skeleton /> : banner.clientName}</p>
                       </Col>
-                      <Col md={6}>
+                      <Col md={3}>
                         <p className="mb-0">
-                          <strong>Description</strong>
+                          <strong>Navigation link</strong>
                         </p>
-                        <p>
-                          {loading ? (
-                            <Skeleton />
-                          ) : (
-                            genre.starter[currentStarter].description
-                          )}
-                        </p>
+                        <p>{loading ? <Skeleton /> : banner.navigationUrl}</p>
                       </Col>
-                     
 
                       <Col md={3}>
                         <p className="mb-0">
@@ -117,7 +97,7 @@ const ViewGenre = () => {
                           {loading ? (
                             <Skeleton />
                           ) : (
-                            getDateTime(genre.createdAt)
+                            getDateTime(banner.createdAt)
                           )}
                         </p>
                       </Col>
@@ -129,7 +109,7 @@ const ViewGenre = () => {
                           {loading ? (
                             <Skeleton />
                           ) : (
-                            getDateTime(genre.updatedAt)
+                            getDateTime(banner.updatedAt)
                           )}
                         </p>
                       </Col>
@@ -138,7 +118,7 @@ const ViewGenre = () => {
                 </Row>
               </Card.Body>
             </Card>
-            <EditGenreModel
+            <EditBannerModel
               show={modalShow}
               onHide={() => setModalShow(false)}
             />
@@ -151,4 +131,4 @@ const ViewGenre = () => {
   );
 };
 
-export default ViewGenre;
+export default ViewBanner;

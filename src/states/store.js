@@ -22,6 +22,9 @@ const initialState = {
   banners: [],
   bannerLength: 0,
   banner: {},
+  querys: [],
+  queryLength: 0,
+  query: {},
   privacyPolicy: "",
   termsAndCondition: "",
 };
@@ -85,6 +88,17 @@ function reducer(state, action) {
         ...state,
         banner: action.payload.banner,
       };
+      case "QUERYS_DATA_FETCH_SUCCESSFULLY":
+        return {
+          ...state,
+          querys: action.payload.querys,
+          queryLength: action.payload.length,
+        };
+      case "QUERY_DATA_FETCH_SUCCESSFULLY":
+        return {
+          ...state,
+          query: action.payload.query,
+        };
     case "FETCH_PRIVACY_POLICY":
       return {
         ...state,

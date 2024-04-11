@@ -19,6 +19,9 @@ import Banners from "./pages/banners/Banners";
 import AddBanner from "./pages/banners/AddBanner";
 import ViewBanner from "./pages/banners/ViewBanner";
 import DeleteAccount from "./pages/deleteaccount/DeleteAccount";
+import ContactUs from "./pages/contactus/contactUs";
+import Querys from "./pages/querys/Query";
+import ViewQuery from "./pages/querys/ViewQuery";
 
 function App() {
   const { state } = useContext(Store);
@@ -152,6 +155,24 @@ function App() {
             }
           />
           <Route
+            exact
+            path="/admin/querys"
+            element={
+              <AdminProtectedRoute>
+                <Querys />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/admin/view/query/:id"
+            element={
+              <AdminProtectedRoute>
+                <ViewQuery />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/privacy-policy"
             element={
               // <AdminProtectedRoute>
@@ -175,6 +196,13 @@ function App() {
               // </AdminProtectedRoute>
             }
           ></Route>
+          <Route
+            path="/admin/contact-us"
+            element={
+              // <AdminProtectedRoute>
+              <ContactUs />
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

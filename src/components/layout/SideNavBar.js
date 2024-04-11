@@ -55,6 +55,11 @@ const linkList = [
     text: "Terms & Condition",
     url: "/admin/terms-and-condition",
   },
+  {
+    icon: <MdPrivacyTip className="icon-md" />,
+    text: "Querys",
+    url: "/admin/querys",
+  },
 ];
 
 const active_text = {
@@ -65,6 +70,7 @@ const active_text = {
   "Banners":"banners",
   "Privacy Policy": "privacy-policy",
   "Terms & Condition": "terms-and-condition",
+  Querys:"querys"
 };
 
 export default function SideNavbar({ isExpanded }) {

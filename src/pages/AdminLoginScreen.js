@@ -149,6 +149,14 @@ export default function AdminLoginScreen() {
               Delete Account
             </Link>
           </div>
+          <div className="d-flex justify-content-center">
+            <Link
+              className="text-decoration-underline"
+              to="/admin/contact-us"
+            >
+              Contact Us
+            </Link>
+          </div>
         </Card.Body>
       </Card>
     </Container>

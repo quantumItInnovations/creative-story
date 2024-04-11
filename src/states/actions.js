@@ -281,3 +281,56 @@ export const getBanner = async (ctxDispatch, dispatch, token, id) => {
     dispatch({ type: "FETCH_FAIL", payload: getError(err) });
   }
 };
+
+export const getAllQuerys = async (
+  ctxDispatch,
+  dispatch,
+  token,
+  resultPerPage,
+  currentPage,
+  searchInput
+) => {
+  try {
+    dispatch({ type: "FETCH_REQUEST" });
+    const { data } = await axiosInstance.get(
+      `/api/query/get-querys?key=${searchInput}&currentPage=${currentPage}&resultPerPage=${resultPerPage}`,
+      {
+        headers: { authorization: `Bearer ${token}` },
+      }
+    );
+    // console.log(data);
+    if (data.success) {
+      ctxDispatch({
+        type: "QUERYS_DATA_FETCH_SUCCESSFULLY",
+        payload: { querys: data.querys, length: data.length },
+      });
+      dispatch({ type: "FETCH_SUCCESS" });
+    } else {
+      dispatch({ type: "FETCH_FAIL", payload: getError(data) });
+    }
+  } catch (err) {
+    dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+  }
+};
+
+export const getQuery = async (ctxDispatch, dispatch, token, id) => {
+  try {
+    // console.log("in this route");
+    dispatch({ type: "FETCH_REQUEST" });
+    const { data } = await axiosInstance.get(`/api/query/get-query/${id}`, {
+      headers: { authorization: `Bearer ${token}` },
+    });
+    // console.log(data);
+    if (data.success) {
+      ctxDispatch({
+        type: "QUERY_DATA_FETCH_SUCCESSFULLY",
+        payload: { query: data.query },
+      });
+      dispatch({ type: "FETCH_SUCCESS" });
+    } else {
+      dispatch({ type: "FETCH_FAIL", payload: getError(data) });
+    }
+  } catch (err) {
+    dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+  }
+};

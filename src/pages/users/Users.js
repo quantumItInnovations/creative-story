@@ -41,14 +41,17 @@ export default function Users() {
   });
 
   useEffect(() => {
-    const socketcopy = io("https://websockets.keepitgoingstory.com:4000");
+    // const socketcopy = io("https://websockets.keepitgoingstory.com:4000"); phase-1-live
+    const socketcopy = io(
+      "https://keepitgoing-socket-phase-2.onrender.com:4000"
+    );
     setSocket(socketcopy);
     return () => {
       socket?.disconnect();
     };
   }, []);
 
-  console.log(socket)
+  console.log(socket);
 
   useEffect(() => {
     getAllUsers(

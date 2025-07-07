@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
   // baseURL: "http://localhost:4000",
   // baseURL: "https://creative-story-backend.adaptable.app",
   // baseURL:"https://api.keepitgoingstory.com" - phase-1-live
-  baseURL: "https://keepitgoing-phase-2.onrender.com",
+  baseURL: "https://creative-story-backend-personal.onrender.com",
 });
 
 export default axiosInstance;

@@ -43,7 +43,7 @@ export default function Users() {
   useEffect(() => {
     // const socketcopy = io("https://websockets.keepitgoingstory.com:4000"); phase-1-live
     const socketcopy = io(
-      "https://keepitgoing-socket-phase-2.onrender.com:4000"
+      "https://creative-story-socket-phase-2.onrender.com:4000"
     );
     setSocket(socketcopy);
     return () => {

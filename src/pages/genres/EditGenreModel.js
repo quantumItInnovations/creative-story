@@ -27,6 +27,7 @@ export default function EditGenresModel(props) {
   const [starters, setStarters] = useState([]);
   const [backgroundColour, setBackgroundColour] = useState("");
   const [image, setImage] = useState("");
+  const [imgPreview, setImagePreview] = useState("");
 
   useEffect(() => {
     if (genre.starter && genre.starter) {
@@ -36,6 +37,7 @@ export default function EditGenresModel(props) {
       setBackgroundColour(
         genre?.backgroundColour ? genre.backgroundColour : ""
       );
+      setImagePreview(genre?.imageUrl);
     }
   }, [genre]);
 
@@ -68,19 +70,17 @@ export default function EditGenresModel(props) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (
-      !genre
-    ) {
+    if (!genre) {
       toast.warning("Please fill atleast one fieled");
       return;
     }
     try {
-      console.log(starters)
+      console.log(starters);
       //   dispatch({ type: "UPDATE_REQUEST" });
       setLoad(true);
       const formData = new FormData();
       formData.append("genre", genres);
-      formData.append("starter",JSON.stringify(starters));
+      formData.append("starter", JSON.stringify(starters));
       // formData.append("starter", JSON.stringify(starterArray));
       formData.append("colour", colour);
       formData.append("backgroundColour", backgroundColour);
@@ -116,6 +116,13 @@ export default function EditGenresModel(props) {
       toast.error(getError(err), {
         position: toast.POSITION.BOTTOM_CENTER,
       });
+    }
+  };
+
+  const handleImageChange = (file) => {
+    setImage(file);
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -159,13 +166,19 @@ export default function EditGenresModel(props) {
             </Form.Group>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Image</Form.Label>
-              <Cropper  setImage={setImage}  w={194} h={112} />
+              <Cropper setImage={handleImageChange} w={194} h={112} />
             </Form.Group>
 
-            {starters.map((starter, index) => {
+            {imgPreview && (
+              <div>
+                <img src={imgPreview} height={300} width={600} alt="Preview" />
+              </div>
+            )}
+
+            {starters?.map((starter, index) => {
               return (
                 <>
-                  <Form.Group className="mb-3" controlId="description">
+                  <Form.Group className="mb-3 mt-3" controlId="description">
                     <Form.Label>Starter {index + 1}</Form.Label>
                     <Form.Control
                       value={starter.starter}

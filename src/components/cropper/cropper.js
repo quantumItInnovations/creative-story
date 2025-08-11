@@ -11,6 +11,7 @@ import { useDebounceEffect } from "./useDebounceEffect";
 
 import "react-image-crop/dist/ReactCrop.css";
 import { Button, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 // This is to demonstate how to make and center a % aspect crop
 // which is a bit trickier so we use some helper functions.
@@ -82,6 +83,7 @@ export default function Cropper({ setImage, w, h, isUploaded }) {
       // hiddenAnchorRef.current.href = blobUrlRef.current;
       // hiddenAnchorRef.current.click();
       setImage(new File([blob], imageName, { type: blob.type }));
+      toast.info("Dimension confirmed");
     });
   }
 
@@ -165,7 +167,9 @@ export default function Cropper({ setImage, w, h, isUploaded }) {
                 />
               </div>
               <div>
-                <Button className="mt-3" onClick={onDownloadCropClick}>Crop</Button>
+                <Button className="mt-3" onClick={onDownloadCropClick}>
+                  Crop
+                </Button>
                 {/* <a
               ref={hiddenAnchorRef}
               download

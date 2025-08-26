@@ -38,8 +38,15 @@ export default function Genres() {
     error: "",
   });
   useEffect(() => {
-    getAllGenres(ctxDispatch, dispatch, token, resultPerPage, curPage,searchInput);
-  }, [curPage, resultPerPage, token, del,query]);
+    getAllGenres(
+      ctxDispatch,
+      dispatch,
+      token,
+      resultPerPage,
+      curPage,
+      searchInput
+    );
+  }, [curPage, resultPerPage, token, del, query]);
 
   const deleteGenre = async (id) => {
     if (
@@ -150,7 +157,7 @@ export default function Genres() {
                           >
                             <FaEye />
                           </Button>
-                          {/* <Button
+                          <Button
                             onClick={() => {
                               deleteGenre(genre._id);
                             }}
@@ -158,7 +165,7 @@ export default function Genres() {
                             className="btn btn-danger ms-2"
                           >
                             <FaTrashAlt />
-                          </Button> */}
+                          </Button>
                         </td>
                       </tr>
                     ))
